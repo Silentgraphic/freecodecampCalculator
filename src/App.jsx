@@ -1,8 +1,13 @@
+import Display from "./Display";
+import Buttons from "./Buttons";
 
 function App() {
 
   return (
-    <div></div>
+    <div id="calulator">
+      <Display />
+      <Buttons />
+    </div>
   );
 }
 
