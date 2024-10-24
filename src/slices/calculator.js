@@ -34,18 +34,24 @@ const calculatorSlice = createSlice({
     initialState,
     reducers: {
         addToCalc: (state, action) => {
-            const lastItem = state.currentCalc[state.currentCalc.length - 1];
-            if ((parseInt(action.payload) || action.payload === ".") && (parseInt(lastItem[0]) || lastItem === "")) {
-                if (lastItem[lastItem.length - 4] !== ".") state.currentCalc[state.currentCalc.length - 1] += action.payload;
-            } else if (lastItem !== "") {
-                state.currentCalc.push(action.payload);
+            if (state.calcOutput != 0 && state.currentCalc[0] === "") {
+                state.currentCalc[0] = state.calcOutput;
             }
+
+            const lastItem = state.currentCalc[state.currentCalc.length - 1];
+
+            if (!parseInt(action.payload) && action.payload != "." && parseInt(state.currentCalc[0]) && parseInt(lastItem)) {
+                state.currentCalc.push(action.payload);
+            } else if (parseInt(action.payload) || action.payload === "." && state.calcOutput === 0) {
+                if (!parseInt(lastItem) && parseInt(state.currentCalc[0])) { state.currentCalc.push(action.payload); }
+                else if (lastItem[lastItem.length - 4] !== ".") state.currentCalc[state.currentCalc.length - 1] += action.payload;
+            }
+            state.calcOutput = 0;
         },
-        clearCalc: (state) => { state.currentCalc = [""]; },
+        clearCalc: (state) => { state.currentCalc = [""]; state.calcOutput = 0; },
         submitCalc: (state) => {
             state.calcOutput = calculate(state);
-            state.currentCalc = [state.calcOutput];
-            console.log(state.calcOutput);
+            state.currentCalc = [""];
         }
     }
 });
