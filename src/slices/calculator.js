@@ -46,11 +46,16 @@ const calculatorSlice = createSlice({
                 const lastItem = state.currentCalc[state.currentCalc.length - 1];
 
                 //Check if pressed key is NaN or a . and add to calculation
-                if (!parseInt(action.payload) && action.payload != "." && parseInt(state.currentCalc[0]) && parseInt(lastItem)) {
-                    state.currentCalc.push(action.payload);
-                } else if (parseInt(action.payload) || action.payload === "." && state.calcOutput === 0) {
-                    if (!parseInt(lastItem) && parseInt(state.currentCalc[0])) { state.currentCalc.push(action.payload); }
+                if (isNaN(action.payload) && state.currentCalc[0] != "" && lastItem != action.payload) {
+                    //Check if there is atleast one . in number
+                    if (action.payload === "." && (lastItem.match(/\./g) || []).length === 0) state.currentCalc[state.currentCalc.length - 1] += action.payload;
+                    else if (action.payload != ".") state.currentCalc.push(action.payload);
+                } else if (!isNaN(action.payload)) {
+                    //check if item send is an operator or first item is a num
+                    if (!parseInt(lastItem) && parseInt(state.currentCalc[0])) state.currentCalc.push(action.payload);
+                    else if (lastItem.length === 1 && action.payload == "0" && lastItem[0] === "0") return;
                     else if (lastItem[lastItem.length - 4] !== ".") state.currentCalc[state.currentCalc.length - 1] += action.payload;
+                    console.log(lastItem);
                 }
             }
             state.calcOutput = 0;
