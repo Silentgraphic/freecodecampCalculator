@@ -18,7 +18,7 @@ function Buttons() {
             <button id="nine" className="nums" onClick={() => dispatch(addToCalc("9"))}>9</button>
             <button id="add" onClick={() => dispatch(addToCalc("+"))}>+</button>
             <button id="subtract" onClick={() => dispatch(addToCalc("-"))}>-</button>
-            <button id="multiply" onClick={() => dispatch(addToCalc("+"))}>*</button>
+            <button id="multiply" onClick={() => dispatch(addToCalc("*"))}>*</button>
             <button id="divide" onClick={() => dispatch(addToCalc("/"))}>/</button>
             <button id="decimal" onClick={() => dispatch(addToCalc("."))}>.</button>
             <button id="clear" onClick={() => dispatch(clearCalc())}>AC</button>
