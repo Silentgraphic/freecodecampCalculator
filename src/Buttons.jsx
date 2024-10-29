@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addToCalc, clearCalc, submitCalc } from "./slices/calculator";
+import { addToCalc, clearCalc, submitCalc, updateDisplay } from "./slices/calculator";
 
 function Buttons() {
     const dispatch = useDispatch();
@@ -22,7 +22,10 @@ function Buttons() {
             <button id="divide" onClick={() => dispatch(addToCalc("/"))}>/</button>
             <button id="decimal" onClick={() => dispatch(addToCalc("."))}>.</button>
             <button id="clear" onClick={() => dispatch(clearCalc())}>AC</button>
-            <button id="equals" onClick={() => dispatch(submitCalc())}> = </button>
+            <button id="equals" onClick={() => {
+                dispatch(submitCalc());
+                dispatch(updateDisplay());
+            }}> = </button>
         </div >
     );
 }
