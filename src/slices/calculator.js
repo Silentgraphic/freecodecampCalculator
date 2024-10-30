@@ -10,11 +10,13 @@ function calculate(state) {
     const calcArry = state.currentCalc;
     return calcArry.reduce((acc, val, index) => {
         const nextVal = parseFloat(calcArry[index + 1]);
+        const prevVal = calcArry[index - 1];
         switch (val[0]) {
             case "+":
                 acc += nextVal;
                 break;
             case "-":
+                if (isNaN(prevVal)) break;
                 acc -= nextVal;
                 break;
             case "/":
@@ -35,8 +37,11 @@ const calculatorSlice = createSlice({
     initialState,
     reducers: {
         addToCalc: (state, action) => {
+            //TODO fix this mess
+
             //Check if this is the second calculation
             if (state.calcOutput != 0 && state.currentCalc[0] === "") {
+                //If user clicked on operator add to previous calculation otherwise reset
                 if (parseInt(action.payload)) state.currentCalc[0] = action.payload;
                 else {
                     state.currentCalc[0] = state.calcOutput;
@@ -44,18 +49,27 @@ const calculatorSlice = createSlice({
                 }
             } else {
                 const lastItem = state.currentCalc[state.currentCalc.length - 1];
+                const lastLastItem = state.currentCalc[state.currentCalc.length - 2];
 
                 //Check if pressed key is NaN or a . and add to calculation
-                if (isNaN(action.payload) && state.currentCalc[0] != "" && lastItem != action.payload) {
-                    //Check if there is atleast one . in number
-                    if (action.payload === "." && (lastItem.match(/\./g) || []).length === 0) state.currentCalc[state.currentCalc.length - 1] += action.payload;
-                    else if (action.payload != ".") state.currentCalc.push(action.payload);
+                if (isNaN(action.payload) && state.currentCalc[0] != "") {
+                    //Allow negative numbers to be added
+                    if (isNaN(lastItem) && action.payload === "-" && lastItem != "-") state.currentCalc.push(action.payload);
+                    else if (lastItem != action.payload) {
+                        //Check if there is atleast one . in number
+                        if (action.payload === "." && (lastItem.match(/\./g) || []).length === 0) state.currentCalc[state.currentCalc.length - 1] += action.payload;
+                        else if (isNaN(lastItem)) {
+                            if (lastItem === "-" && isNaN(lastLastItem)) state.currentCalc.pop();
+                            state.currentCalc[state.currentCalc.length - 1] = action.payload;
+                        }
+                        else if (action.payload != ".") state.currentCalc.push(action.payload);
+                    }
                 } else if (!isNaN(action.payload)) {
                     //check if item send is an operator or first item is a num
-                    if (!parseInt(lastItem) && parseInt(state.currentCalc[0])) state.currentCalc.push(action.payload);
-                    else if (lastItem.length === 1 && action.payload == "0" && lastItem[0] === "0") return;
-                    else if (lastItem[lastItem.length - 4] !== ".") state.currentCalc[state.currentCalc.length - 1] += action.payload;
-                    console.log(lastItem);
+                    if (action.payload === "0" && lastItem[0] === "0") return;
+                    if (!isNaN(lastItem) && lastItem[lastItem.length - 4] !== ".") state.currentCalc[state.currentCalc.length - 1] += action.payload;
+                    else if (lastItem === "-" && isNaN(lastLastItem)) state.currentCalc[state.currentCalc.length - 1] += action.payload;
+                    else if (!isNaN(state.currentCalc[0])) state.currentCalc.push(action.payload);
                 }
             }
             state.calcOutput = 0;
