@@ -14,7 +14,7 @@ function Display() {
 
     return (
         <div id="actualDisplay">
-            <span id="topLine">{currentCalc.join(" ")}</span>
+            <span id="topLine">{currentCalc[0] === "" ? "0" : currentCalc.join(" ")}</span>
             <br />
             <span id="display">{output.toString()}</span>
         </div>

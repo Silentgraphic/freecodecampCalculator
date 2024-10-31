@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background-color: rgb(224, 225, 221);
 }
 
 #calulator {
@@ -12,9 +13,25 @@ body {
 
 #actualDisplay {
     text-align: right;
-    padding: 10px;
     background-color: gray;
     font-size: x-large;
+}
+
+#topLine ,
+#display {
+    width: calc(100% - 20px) ;
+    padding: 0 10px;
+    display: inline-block;
+}
+#topLine {
+    padding-top: 20px;
+    padding-bottom: 2px ;
+    background-color: rgb(119, 141, 169);
+}
+
+#display {
+    padding: 5px 10px;
+    background-color: rgb(65, 90, 119);
 }
 
 #buttons {
