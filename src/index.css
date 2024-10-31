@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+}
+
+#calulator {
+    margin: 20px auto;
+    border: black solid 1px;
+    width: 20%;
+    min-width: 300px;
+    aspect-ratio: 4/3;
+}
+
+#actualDisplay {
+    text-align: right;
+    padding: 10px;
+    background-color: gray;
+    font-size: x-large;
+}
+
+#buttons {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    column-gap:0px;
+    align-content: flex-start;
+}
+
+#buttons * {
+    border-radius: 0px;
+    font-size: medium;
+}
+
+#buttons div {
+    height: 85%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+#numButtons {
+    flex-basis: 70%;
+}
+
+#operatorButtons {
+    flex-basis: 30%;
+}
+.nums {
+    flex-basis: 50%;
+}
+
+#equals {
+    height: 15%;
+}
+
+.operators,
+#equals{
+    flex-basis: 100%;
+}

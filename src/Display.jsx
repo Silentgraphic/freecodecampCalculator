@@ -13,7 +13,7 @@ function Display() {
     }, [currentCalc, dispatch]);
 
     return (
-        <div>
+        <div id="actualDisplay">
             <span id="topLine">{currentCalc.join(" ")}</span>
             <br />
             <span id="display">{output.toString()}</span>
